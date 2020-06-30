@@ -8,8 +8,16 @@ import React, { Component } from 'react'
      onChange = (e) => this.setState({[e.target.name]: e.target.value});
      onSubmit = (e) => {
         e.preventDefault();
-        this.props.searchUsers(this.state.text);
-        this.setState({text: ''});
+        if(this.state.text === ''){
+            this.props.setAlert('Please type something...', 'secondary');
+        }else{
+            this.props.searchUsers(this.state.text);
+            this.setState({text: ''});
+        }
+     }
+
+     clearUsers = () => {
+         this.props.clearUsers();
      }
 
     render() {
@@ -19,6 +27,8 @@ import React, { Component } from 'react'
                 <input type="text" name="text" value={this.state.text} onChange={this.onChange} placeholder="Search users..." className="form-control" />
                 <input type="submit" value="Search" className="form-control mt-3 btn btn-dark" />
             </form>  
+            {this.props.showClear && <button className="form-control mt-3 btn btn-light" onClick={this.clearUsers} >Clear</button>}
+                
             </div>
         )
     }
