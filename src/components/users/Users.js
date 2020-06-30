@@ -1,15 +1,25 @@
-import React, { Component } from 'react'
+import React from 'react'
 import UserItem from './UserItem'
+import Spinar from '../layout/Spiner'
+import PropTypes from 'prop-types'
 
-class Users extends Component {
-    render() {
+
+const Users = ({users, loading}) => {
+    if(loading){
+        return <Spinar />
+    }else{
         return (
-                <div className= "row mt-2">
-                    {this.props.users.map(user => <UserItem key={user.id} user={user} />
-                    )}
-                </div>
+            <div className= "row mt-2">
+                {users.map(user => <UserItem key={user.id} user={user} />
+                )}
+            </div>
         )
     }
+}
+
+Users.propTypes = {
+    users: PropTypes.array.isRequired,
+    loading: PropTypes.bool.isRequired
 }
 
 export default Users
