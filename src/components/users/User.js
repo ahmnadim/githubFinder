@@ -1,16 +1,16 @@
-import React, { Component, Fragment } from 'react'
+import React, { useEffect, Fragment } from 'react'
 import Spinar from '../layout/Spiner'
 import {Link} from 'react-router-dom'
 
-class User extends Component {
-    componentDidMount(){
-        this.props.getUser(this.props.match.params.login);
-        
-    }
-    render() {
-        const {name, avatar_url, location, bio, blog, company, login, html_url, followers, following, public_repos, public_gists, hireable} = this.props.user;
+const User = (props) => {
+    useEffect(() => {
+        props.getUser(props.match.params.login);
+        //eslint-disable-next-line
+    }, []);
 
-        const {loading} = this.props;
+        const {name, avatar_url, location, bio, blog, company, login, html_url, hireable} = props.user;
+
+        const {loading} = props;
         if(loading){
             return <Spinar />
         }else{
@@ -21,15 +21,15 @@ class User extends Component {
                     {hireable ? <i className="fas fa-check text-success" /> : <i className="fas fa-times-circle text-danger" />}
 
                 <div className="card">
-                <div class="row">
-                    <div class="col-sm-4">
+                <div className="row">
+                    <div className="col-sm-4">
                         <div className="card-body">
                             <img src={avatar_url} alt="Avatar" className="rounded-circle ml-5 d-block mt-2" style={{height:100}} />
                                 <h1 className="mt-3">{name}</h1>
                                 <p className="card-text">{location}</p>        
                         </div>
                     </div>
-                    <div class="col-sm mt-2">
+                    <div className="col-sm mt-2">
                         {bio && (
                             <Fragment>
                                 <h3>Bio</h3>
@@ -47,7 +47,6 @@ class User extends Component {
                 </Fragment>
             )
         }
-    }
 }
 
 export default User;

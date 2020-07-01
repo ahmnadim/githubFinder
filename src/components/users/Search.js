@@ -1,37 +1,33 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 
- class Search extends Component {
-     state = {
-         text: ''
-     };
+ const Search = (props) => {
+     const [text, setText] = useState('');
 
-     onChange = (e) => this.setState({[e.target.name]: e.target.value});
-     onSubmit = (e) => {
+    const onChange = (e) => setText(e.target.value);
+    const onSubmit = (e) => {
         e.preventDefault();
-        if(this.state.text === ''){
-            this.props.setAlert('Please type something...', 'secondary');
+        if(text === ''){
+           props.setAlert('Please type something...', 'secondary');
         }else{
-            this.props.searchUsers(this.state.text);
-            this.setState({text: ''});
+           props.searchUsers(text);
+            setText('');
         }
      }
 
-     clearUsers = () => {
-         this.props.clearUsers();
+    const clearUsers = () => {
+         props.clearUsers();
      }
 
-    render() {
         return (
             <div>
-                <form onSubmit={this.onSubmit}>
-                <input type="text" name="text" value={this.state.text} onChange={this.onChange} placeholder="Search users..." className="form-control" />
+                <form onSubmit={onSubmit}>
+                <input type="text" name="text" value={text} onChange={onChange} placeholder="Search users..." className="form-control" />
                 <input type="submit" value="Search" className="form-control mt-3 btn btn-dark" />
             </form>  
-            {this.props.showClear && <button className="form-control mt-3 btn btn-light" onClick={this.clearUsers} >Clear</button>}
+            {props.showClear && <button className="form-control mt-3 btn btn-light" onClick={clearUsers} >Clear</button>}
                 
             </div>
         )
-    }
 }
 
 export default Search;
