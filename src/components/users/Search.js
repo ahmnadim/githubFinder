@@ -1,6 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import GithubContext from '../../context/github/GithubContext'
 
  const Search = (props) => {
+     const githubContext = useContext(GithubContext);
+
      const [text, setText] = useState('');
 
     const onChange = (e) => setText(e.target.value);
@@ -9,7 +12,7 @@ import React, { useState } from 'react'
         if(text === ''){
            props.setAlert('Please type something...', 'secondary');
         }else{
-           props.searchUsers(text);
+            githubContext.searchUsers(text);
             setText('');
         }
      }

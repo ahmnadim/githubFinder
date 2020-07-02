@@ -1,25 +1,22 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import UserItem from './UserItem'
 import Spinar from '../layout/Spiner'
-import PropTypes from 'prop-types'
+import GithubContext from '../../context/github/GithubContext'
 
 
-const Users = ({users, loading}) => {
-    if(loading){
+const Users = () => {
+    const githubContext = useContext(GithubContext);
+    if(githubContext.loading){
         return <Spinar />
     }else{
         return (
             <div className= "row mt-2">
-                {users.map(user => <UserItem key={user.id} user={user} />
+                {githubContext.users.map(user => <UserItem key={user.id} user={user} />
                 )}
             </div>
         )
     }
 }
 
-Users.propTypes = {
-    users: PropTypes.array.isRequired,
-    loading: PropTypes.bool.isRequired
-}
 
 export default Users
