@@ -1,37 +1,39 @@
-import React, { Component } from 'react'
+import React, { useState, useContext } from 'react'
+import GithubContext from '../../context/github/GithubContext'
+import AlertContext from '../../context/alert/AlertContext'
 
- class Search extends Component {
-     state = {
-         text: ''
-     };
+ const Search = (props) => {
+     const githubContext = useContext(GithubContext);
+     const alertContext = useContext(AlertContext);
 
-     onChange = (e) => this.setState({[e.target.name]: e.target.value});
-     onSubmit = (e) => {
+     const [text, setText] = useState('');
+
+    const onChange = (e) => setText(e.target.value);
+    
+    const onSubmit = (e) => {
         e.preventDefault();
-        if(this.state.text === ''){
-            this.props.setAlert('Please type something...', 'secondary');
+        if(text === ''){
+            alertContext.setAlert('Please type something...', 'secondary');
         }else{
-            this.props.searchUsers(this.state.text);
-            this.setState({text: ''});
+            githubContext.searchUsers(text);
+            setText('');
         }
      }
 
-     clearUsers = () => {
-         this.props.clearUsers();
+    const clearUsers = () => {
+         githubContext.clearUsers();
      }
 
-    render() {
         return (
             <div>
-                <form onSubmit={this.onSubmit}>
-                <input type="text" name="text" value={this.state.text} onChange={this.onChange} placeholder="Search users..." className="form-control" />
+                <form onSubmit={onSubmit}>
+                <input type="text" name="text" value={text} onChange={onChange} placeholder="Search users..." className="form-control" />
                 <input type="submit" value="Search" className="form-control mt-3 btn btn-dark" />
             </form>  
-            {this.props.showClear && <button className="form-control mt-3 btn btn-light" onClick={this.clearUsers} >Clear</button>}
+            {githubContext.users.length > 0 && <button className="form-control mt-3 btn btn-light" onClick={clearUsers} >Clear</button>}
                 
             </div>
         )
-    }
 }
 
 export default Search;
