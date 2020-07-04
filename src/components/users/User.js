@@ -1,16 +1,18 @@
-import React, { useEffect, Fragment } from 'react'
+import React, { useEffect, Fragment, useContext } from 'react'
 import Spinar from '../layout/Spiner'
 import {Link} from 'react-router-dom'
+import GithubContext from '../../context/github/GithubContext'
 
-const User = (props) => {
+const User = ({match}) => {
+    const githubContext = useContext(GithubContext);
     useEffect(() => {
-        props.getUser(props.match.params.login);
+        githubContext.getUser(match.params.login);
         //eslint-disable-next-line
     }, []);
 
-        const {name, avatar_url, location, bio, blog, company, login, html_url, hireable} = props.user;
+        const {name, avatar_url, location, bio, blog, company, login, html_url, hireable} = githubContext.user;
 
-        const {loading} = props;
+        const {loading} = githubContext;
         if(loading){
             return <Spinar />
         }else{
